@@ -7,6 +7,8 @@ The web server runs on port 8080.
 
 Note that there is no session management implemented, so refreshing the page will clear all entries.
 
+![A look at how amazing this application looks](screenshots/main.png)
+
 ## Features
 - **Add Items**: Users can add items using a text input box.
 - **Random Selection**: Click a button to highlight a random item from the list.
