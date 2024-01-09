@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Item Selector</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+        }
+
+        /* Dark theme */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: black;
+                color: white;
+            }
+        }
+        #itemList {
+            margin-top: 20px;
+        }
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Item Selector</h1>
+    <form id="addItemForm">
+        <input type="text" id="itemInput" placeholder="Enter item" required>
+        <button type="submit">Add</button>
+    </form>
+    <ul id="itemList">
+        <!-- List items will be added here -->
+    </ul>
+    <button id="randomItemButton">Select Random Item</button>
+
+    <script>
+        document.getElementById('addItemForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const itemValue = document.getElementById('itemInput').value;
+            if (itemValue) {
+                addItemToList(itemValue);
+                document.getElementById('itemInput').value = '';
+            }
+        });
+
+        document.getElementById('randomItemButton').addEventListener('click', function() {
+            highlightRandomItem();
+        });
+
+        function addItemToList(item) {
+            const listItem = document.createElement('li');
+            listItem.textContent = item;
+            document.getElementById('itemList').appendChild(listItem);
+        }
+
+        function highlightRandomItem() {
+            const items = document.querySelectorAll('#itemList li');
+            if (items.length > 0) {
+                items.forEach(item => item.classList.remove('highlight'));
+                const randomIndex = Math.floor(Math.random() * items.length);
+                items[randomIndex].classList.add('highlight');
+            }
+        }
+    </script>
+</body>
+</html>
