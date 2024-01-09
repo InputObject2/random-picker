@@ -1,6 +1,6 @@
 # Variables
 IMAGE_NAME := inputobject2/random-picker
-TAGS := latest 0.0.1 0.0 0
+TAGS := latest 0.0.2 0.0 0
 
 # Build the Docker image and tag it
 build:

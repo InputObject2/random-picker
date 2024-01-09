@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Item Selector</title>
     <style>
         body {
             background-color: white;
             color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
 
         /* Dark theme */
@@ -14,10 +22,33 @@
             body {
                 background-color: black;
                 color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
             }
         }
+        #addItemForm {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        #itemInput, button {
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 1em;
+        }
+
         #itemList {
-            margin-top: 20px;
+            list-style-type: none;
+            padding: 0;
+            width: 90%;
+            max-width: 400px;
         }
         .highlight {
             color: red;
