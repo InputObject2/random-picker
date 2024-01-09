@@ -31,6 +31,18 @@
                 font-family: Arial, sans-serif;
             }
         }
+
+        .itemRow.highlighted {
+            background-color: lightblue; /* Light theme color */
+        }
+
+        /* Dark theme */
+        @media (prefers-color-scheme: dark) {
+            .itemRow.highlighted {
+                background-color: darkblue; /* Dark theme color */
+            }
+        }
+
         #addItemForm {
             display: flex;
             flex-direction: column;
@@ -62,38 +74,88 @@
         <input type="text" id="itemInput" placeholder="Enter item" required>
         <button type="submit">Add</button>
     </form>
-    <ul id="itemList">
-        <!-- List items will be added here -->
-    </ul>
-    <button id="randomItemButton">Select Random Item</button>
+
+    <button id="randomItemButton">Select Random Item (CTRL+G)</button>
+
+    <table id="itemTable">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Selection Count</th>
+                <th>Selection Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be added here -->
+        </tbody>
+    </table>
+
 
     <script>
         document.getElementById('addItemForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const itemValue = document.getElementById('itemInput').value;
             if (itemValue) {
-                addItemToList(itemValue);
+                addItemToTable(itemValue);
                 document.getElementById('itemInput').value = '';
             }
         });
 
-        document.getElementById('randomItemButton').addEventListener('click', function() {
-            highlightRandomItem();
-        });
+        document.addEventListener('keydown', function(event) {
+            // Check if 'Ctrl' and 'G' are pressed together
+            if (event.ctrlKey && event.key === 'g') {
+                event.preventDefault(); // Prevent the default action for Ctrl+G
+                highlightRandomItem();
+            }
+        })
 
-        function addItemToList(item) {
-            const listItem = document.createElement('li');
-            listItem.textContent = item;
-            document.getElementById('itemList').appendChild(listItem);
+        function addItemToTable(item) {
+            const table = document.getElementById('itemTable').getElementsByTagName('tbody')[0];
+            const row = table.insertRow();
+            const itemCell = row.insertCell(0);
+            const countCell = row.insertCell(1);
+            const percentageCell = row.insertCell(2);
+            itemCell.textContent = item;
+            countCell.textContent = '0';
+            percentageCell.textContent = '0%';
+            row.classList.add('itemRow');
         }
 
-        function highlightRandomItem() {
-            const items = document.querySelectorAll('#itemList li');
-            if (items.length > 0) {
-                items.forEach(item => item.classList.remove('highlight'));
-                const randomIndex = Math.floor(Math.random() * items.length);
-                items[randomIndex].classList.add('highlight');
+        document.getElementById('randomItemButton').addEventListener('click', function() {
+            const rows = document.querySelectorAll('#itemTable .itemRow');
+            if (rows.length > 0) {
+                const randomIndex = Math.floor(Math.random() * rows.length);
+                const selectedRow = rows[randomIndex];
+                highlightRandomItem();
+                updateCountsAndPercentages(selectedRow);
             }
+        });
+
+        function highlightRandomItem() {
+            const rows = document.querySelectorAll('#itemTable .itemRow');
+            if (rows.length > 0) {
+                rows.forEach(row => row.classList.remove('highlighted'));
+                const randomIndex = Math.floor(Math.random() * rows.length);
+                const selectedRow = rows[randomIndex];
+                selectedRow.classList.add('highlighted');
+                updateCountsAndPercentages(selectedRow);
+            }
+        }
+
+        function updateCountsAndPercentages(selectedRow) {
+            const rows = document.querySelectorAll('#itemTable .itemRow');
+            let totalSelections = 0;
+            rows.forEach(row => {
+                const countCell = row.cells[1];
+                countCell.textContent = parseInt(countCell.textContent) + (row === selectedRow ? 1 : 0);
+                totalSelections += parseInt(countCell.textContent);
+            });
+
+            rows.forEach(row => {
+                const count = parseInt(row.cells[1].textContent);
+                const percentage = (count / totalSelections * 100).toFixed(2) + '%';
+                row.cells[2].textContent = percentage;
+            });
         }
     </script>
 </body>
