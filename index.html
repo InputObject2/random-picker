@@ -71,7 +71,7 @@
 <body>
     <h1>Random Item Selector</h1>
     <form id="addItemForm">
-        <input type="text" id="itemInput" placeholder="Enter item" required>
+        <textarea id="itemInput" placeholder="Enter items (one per line)" required></textarea>
         <button type="submit">Add</button>
     </form>
 
@@ -94,11 +94,13 @@
     <script>
         document.getElementById('addItemForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const itemValue = document.getElementById('itemInput').value;
-            if (itemValue) {
-                addItemToTable(itemValue);
-                document.getElementById('itemInput').value = '';
-            }
+            const itemValues = document.getElementById('itemInput').value.split('\n');
+            itemValues.forEach(itemValue => {
+                if (itemValue.trim()) {
+                    addItemToTable(itemValue.trim());
+                }
+            });
+            document.getElementById('itemInput').value = '';
         });
 
         document.addEventListener('keydown', function(event) {
