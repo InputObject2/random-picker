@@ -124,13 +124,7 @@
         }
 
         document.getElementById('randomItemButton').addEventListener('click', function() {
-            const rows = document.querySelectorAll('#itemTable .itemRow');
-            if (rows.length > 0) {
-                const randomIndex = Math.floor(Math.random() * rows.length);
-                const selectedRow = rows[randomIndex];
-                highlightRandomItem();
-                updateCountsAndPercentages(selectedRow);
-            }
+            highlightRandomItem();
         });
 
         function highlightRandomItem() {
